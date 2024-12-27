@@ -1,0 +1,45 @@
+name: CI
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: '1.16'
+        
+      - name: Install Hugo
+        run: |
+          wget https://github.com/gohugoio/hugo/releases/download/v0.87.0/hugo_extended_0.87.0_Linux-64bit.tar.gz
+          tar -xzf hugo_extended_0.87.0_Linux-64bit.tar.gz
+          sudo mv hugo /usr/local/bin/
+      
+      - name: Extract and Prepare Harbor
+        run: |
+          wget https://github.com/goharbor/harbor/releases/download/v2.3.0/harbor-offline-installer-v2.3.0.tgz
+          tar -xvzf harbor-offline-installer-v2.3.0.tgz
+        
+      - name: Build the site
+        run: hugo
+      
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public    
+      
+      - name: Vue App to Github Pages
+        uses: StruggleYang/VuePagesAction@2.0.0
+        with:
+          useyarn: true
+
+          
+          
