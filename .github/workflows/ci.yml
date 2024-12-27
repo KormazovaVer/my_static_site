@@ -17,7 +17,7 @@ jobs:
         run: |
           wget https://github.com/goharbor/harbor/releases/download/v2.3.0/harbor-offline-installer-v2.3.0.tgz
           tar -xvzf harbor-offline-installer-v2.3.0.tgz
-          sudo cp harbor/hugo /usr/local/bin/
+          sudo cp C:/ProgramData/chocolatey/lib/hugo/tools/hugo /usr/local/bin/
       - name: Build the site
         run: hugo
       - name: Deploy to GitHub Pages
